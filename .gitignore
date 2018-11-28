@@ -1,0 +1,9 @@
+venv
+*.py[code]
+.idea
+*__pycache__
+dataset/*
+files/*
+.vscode
+!dataset/.gitkeep 
+!files/.gitkeep
