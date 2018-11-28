@@ -2,12 +2,9 @@ import logging
 
 import nltk
 from gensim.models import Doc2Vec
-import numpy as np
-from gensim.test.test_doc2vec import ConcatenatedDoc2Vec
 import os
 import pandas as pd
 from .config import config
-from sklearn.linear_model import LogisticRegression
 from .dataset import Dataset
 
 
