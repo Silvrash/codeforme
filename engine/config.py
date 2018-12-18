@@ -1,7 +1,8 @@
 import os
 
-if not os.path.exists('model'):
-    os.mkdir('model')
+# create model folder if not exists
+if not os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "model")):
+    os.mkdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), "model"))
 
 config = {
     'dataset_path': os.path.join(os.path.dirname(os.path.abspath(__file__)), "model/serialised_data"),

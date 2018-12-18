@@ -1,6 +1,6 @@
-from resources.snippets import Snippets
 from resources.test import TestResource
-from resources.verification import VerificationResource
+from views import index
+from resources.snippets import Snippets
 
 GET = 'GET'
 POST = 'POST'
@@ -9,10 +9,10 @@ PUT = 'PUT'
 
 APP_URL = [
     {
-        'func': VerificationResource.register_user,
-        'url': 'user/register',
-        'endpoint': 'add_user',
-        'methods': [POST]
+        'func': TestResource.test,
+        'url': 'test/func',
+        'endpoint': 'test_func',
+        'methods': [GET]
     }
 ]
 
@@ -29,17 +29,13 @@ API_URL = [
     }
 ]
 
-SOCKET_EVENTS = [
+VIEWS = [
     {
-        'event': 'text-to-intents',
-        'func': Snippets.textToIntents
+        'func': index,
+        'url': '/'
     },
     {
-        'event': 'connect',
-        'func': Snippets.onConnect
+        'func': index,
+        'url': '/code'
     },
-    {
-        'event': 'speech-to-intents',
-        'func': Snippets.speechToIntents
-    }
 ]

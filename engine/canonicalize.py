@@ -58,21 +58,23 @@ class Canonicalize(object):
                                     pass
                             setattr(node, k, val)
 
-    def cononicalize_code(self, code, slot_map):
+    @staticmethod
+    def cononicalize_code(code, slot_map):
         try:
             string2slot = {x[1]: x[0] for x in list(slot_map.items())}
             py_ast = ast.parse(code)
-            self.replace_strings_in_ast(py_ast, string2slot)
+            Canonicalize.replace_strings_in_ast(py_ast, string2slot)
             normalized_code = astor.to_source(py_ast)
         except:
             normalized_code = code
         return normalized_code
 
-    def decanonicalize_code(self, code, slot_map):
+    @staticmethod
+    def decanonicalize_code(code, slot_map):
         try:
             slot2string = {x[0]: x[1] for x in list(slot_map.items())}
             py_ast = ast.parse(code)
-            self.replace_strings_in_ast(py_ast, slot2string)
+            Canonicalize.replace_strings_in_ast(py_ast, slot2string)
             raw_code = astor.to_source(py_ast)
             return raw_code.strip()
         except:

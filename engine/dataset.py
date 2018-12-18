@@ -9,7 +9,6 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
 
 import pandas as pd
-from gensim import corpora
 from nltk.corpus import stopwords
 import pickle
 from .config import config
@@ -17,9 +16,13 @@ from .canonicalize import Canonicalize
 
 
 class Dataset(object):
+    """
+    This module handles all the preprocessing of the dataset
+    """
     def __init__(self, generate_corpus=False):
         self.canonicalize = Canonicalize()
         # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+
         self._init_dataset()
 
         logging.info('Loading dataset')
@@ -30,6 +33,8 @@ class Dataset(object):
             self.generate_corpus()
 
     def _init_dataset(self):
+        """create, clean and save dataset to a single pickle file"""
+
         # create pickle file if it doesn't exist
         if not os.path.exists(config['dataset_path']):
             logging.info('Initializing dataset')
@@ -49,18 +54,22 @@ class Dataset(object):
             checkpoint = pd.DataFrame().reindex_like(dataset).dropna()
             checkpoint['slot_map'] = None
 
-            print(checkpoint.columns)
+            # create data checkpoint file to enable resuming of preprocessing
             if os.path.exists(config['data_checkpoint']):
                 checkpoint = pd.read_pickle(
                     os.path.abspath(config['data_checkpoint'])
                 )
 
+            # remove unwanted encodings from our data
             dataset = self.normalise_data(dataset, checkpoint)
 
+            # save dataset file
             dataset.to_pickle(config['dataset_path'])
             logging.info('Initializing dataset Completed')
 
     def generate_corpus(self):
+        """clean commands and save them to a pickle file"""
+
         logging.info('Generating Corpus')
 
         commands = self.dataset.rewritten_intent.values
@@ -68,7 +77,6 @@ class Dataset(object):
         lem = WordNetLemmatizer()
         commands = [nltk.word_tokenize(i.lower()) for i in commands if i not in stop]
         commands = [[lem.lemmatize(word, wordnet.VERB) for word in command] for command in commands]
-        original_commands = commands
 
         frequency = defaultdict(int)
         for command in commands:
@@ -83,6 +91,8 @@ class Dataset(object):
         logging.info('Corpus generation completed')
 
     def normalise_data(self, dataset, checkpoint):
+        """ remove unwanted encodings from data"""
+
         start_time = time.time()
         start_row = checkpoint.shape[0]
         for row_id in range(start_row, len(dataset)):
@@ -110,12 +120,6 @@ class Dataset(object):
 
         dataset = checkpoint
         return dataset
-
-    def load_dictionary(self):
-        return corpora.Dictionary.load(config['dictionary_path'])
-
-    def load_corpus(self):
-        return corpora.MmCorpus(config['corpus_path'])
 
     def load_commands(self):
         with open(config['commands_path'], 'rb') as f:
