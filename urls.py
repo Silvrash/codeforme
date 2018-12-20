@@ -39,3 +39,19 @@ VIEWS = [
         'url': '/code'
     },
 ]
+
+
+SOCKET_EVENTS = [
+    {
+        'event': 'text-to-intents',
+        'func': Snippets.textToIntents
+    },
+    {
+        'event': 'connect',
+        'func': Snippets.onConnect
+    },
+    {
+        'event': 'speech-to-intents',
+        'func': Snippets.speechToIntents
+    }
+]

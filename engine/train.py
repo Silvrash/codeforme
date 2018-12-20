@@ -80,23 +80,7 @@ class Trainer(object):
         logging.info("Model Saved")
 
 
-    def score(self):
-        """get model accuracy"""
-
-        test_data = pd.read_json(
-                os.path.join(os.path.dirname(os.path.abspath(__file__)), "../dataset/conala-test.json")).dropna()
-        overall_accuracy = []
-
-        for i in range(len(test_data)):
-            query = test_data.rewritten_intent.values[i]
-            predictions = self.predict(query)
-            accuracy = [item['accuracy'] for item in predictions[:3]]
-            accuracy = sum(accuracy) / float(len(accuracy))
-            overall_accuracy.append(accuracy)
-
-        overall_accuracy = sum(overall_accuracy) / float(len(overall_accuracy))
-        print('Model accuracy: {}'.format(overall_accuracy))
-        return overall_accuracy
+    
 
 if __name__ == '__main__':
     trainer = Trainer()

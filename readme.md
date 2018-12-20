@@ -1,9 +1,14 @@
-Flask-React is a full-stack template that  integrates python's flask server as the backend and reactJS as the front end in order to make it easy for flask and react development.
+This project was implemented using the conala corpora dataset.
+It seeks mainly to make the life of a programmer easier to migrate from one language to another.
+This project fulfills the requirement of migration from one language to python programming language using natural language as commands
 
 To start the flask server run
 python main.py
 
-To start the web pack server run
-npm start
+Visit http://localhost:14000 
 
-Register api's, views at urls.py
+Online demo: https://codeforme.herokuapp.com
+
+For an interative session, run
+python -m engine.interactive
+

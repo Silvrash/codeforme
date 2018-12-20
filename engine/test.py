@@ -7,7 +7,6 @@ import json
 import pandas as pd
 from .config import config
 from .dataset import Dataset
-from .canonicalize import Canonicalize
 
 
 class PyBot(object):
@@ -40,9 +39,9 @@ class PyBot(object):
             intent =  self.data.dataset.rewritten_intent.values[int(index)]
             snippet = self.data.dataset.snippet.values[int(index)].strip()
             if slot_map:
-                slot_map = list(slot_map.items())[0]
+                slot_map = list(slot_map.items())
                 for slot in slot_map:
-                    intent = intent.replace(slot_map[1], slot_map[0])
+                    intent = intent.replace(slot[1], slot[0])
             prediction = {
                 'command': intent,
                 'snippet': snippet,
@@ -52,20 +51,39 @@ class PyBot(object):
             intents.append(self.data.dataset.rewritten_intent.values[int(index)])
         return predictions
 
+    def score(self):
+        """get model accuracy"""
+
+        test_data = pd.read_json(
+                os.path.join(os.path.dirname(os.path.abspath(__file__)), "../dataset/conala-test.json")).dropna()
+        overall_accuracy = []
+
+        for i in range(len(test_data)):
+            query = test_data.rewritten_intent.values[i]
+            predictions = self.predict(query)
+            accuracy = [item['accuracy'] for item in predictions[:3]]
+            accuracy = sum(accuracy) / float(len(accuracy))
+            overall_accuracy.append(accuracy)
+
+        overall_accuracy = sum(overall_accuracy) / float(len(overall_accuracy))
+        print('Model accuracy: {}'.format(overall_accuracy))
+        return overall_accuracy
 
 if __name__ == '__main__':
     import argparse
     import json
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-intent')
-    args = parser.parse_args()
-    if args.intent is None:
-        print('Expected argument -intent')
-        exit()
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument('-intent')
+    # args = parser.parse_args()
+    # if args.intent is None:
+    #     print('Expected argument -intent')
+    #     exit()
     
     pybot = PyBot()
-    predictions = pybot.predict(args.intent)
-    print(json.dumps(predictions, indent=1))
+    overall_accuracy = pybot.score()
+    print(overall_accuracy)
+    # predictions = pybot.predict(args.intent)
+    # print(json.dumps(predictions, indent=1))
     # problem statement
     # proposed solution
     # methodology

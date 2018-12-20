@@ -2,9 +2,9 @@ from flask import jsonify, render_template
 from flask_restful import Api
 
 from Utils.exceptions import BaseError
-from Utils.url_handlers import register_app_urls, register_apis, register_views
-from app import create_app
-from urls import APP_URL, API_URL, VIEWS
+from Utils.url_handlers import register_app_urls, register_apis, register_views, register_events
+from app import create_app, socketio
+from urls import APP_URL, API_URL, VIEWS, SOCKET_EVENTS
 import os
 
 config_type = os.environ.get('DEVELOPMENT_TYPE') or 'dev'
@@ -13,10 +13,13 @@ handle_exceptions = app.handle_exception
 handle_user_exceptions = app.handle_user_exception
 
 api = Api(app)
+socketio.init_app(app)
 
 register_apis(API_URL, api)
 register_app_urls(APP_URL, app)
 register_views(VIEWS, app)
+register_events(SOCKET_EVENTS, socketio)
+
 app.handle_exception = handle_exceptions
 app.handle_user_exception = handle_user_exceptions
 
@@ -78,4 +81,7 @@ def after_request(response):
 
 
 if __name__ == '__main__':
-    app.run(port=14000, debug=True)
+    socketio.run(app,
+                 host='127.0.0.1',
+                 port=5000,
+                 debug=True)

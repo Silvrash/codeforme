@@ -34,3 +34,7 @@ def register_app_urls(app_urls, app):
 def register_views(views, app):
     for view in views:
         add_views(view.get('func'), view.get('url'), app)
+
+def register_events(events, socketio):
+    for event in events:
+        socketio.on_event(event['event'], event['func'])
