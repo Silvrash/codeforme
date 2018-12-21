@@ -48,7 +48,7 @@ class Recorder extends Component {
     }
 
     onData(recordedBlob) {
-        console.log('chunk of real-time data is: ', recordedBlob);
+        // console.log('chunk of real-time data is: ', recordedBlob);
         // socket.emit('speech-to-intents', { blob: recordedBlob, size: recordedBlob})
     }
 
