@@ -31,7 +31,7 @@ class Snippets(Resource):
         wave_path = os.path.join(session_path, 'audio_wav.wav')
 
         if data:
-            with open(webm_path, 'ab') as f:
+            with open(webm_path, 'wb') as f:
                 if data.get('size'):
                     f.seek(data['size'])
                 f.write(data['blob'])
@@ -41,9 +41,12 @@ class Snippets(Resource):
             subprocess.call(command, shell=True)
             
 
-            text = Snippets.sr.stt(wave_path)
-            if text:
-                emit('stt', {'text': text})
+            if os.path.exists(wave_path):
+                text, error = Snippets.sr.stt(wave_path)
+                if error:
+                    emit('stt-error', {'error': error})
+                if text:
+                    emit('stt', {'text': text})
             
             if os.path.exists(webm_path):
                 os.remove(webm_path)

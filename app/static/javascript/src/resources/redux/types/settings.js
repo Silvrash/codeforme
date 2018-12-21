@@ -1,0 +1,4 @@
+const SETTINGS_CHANGE = 'SETTINGS-CHANGE';
+export {
+    SETTINGS_CHANGE
+}
