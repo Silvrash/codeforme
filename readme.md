@@ -7,9 +7,18 @@ It fulfills the requirement of migration from one language to python programming
 
 **Online demo**: https://codeforme.herokuapp.com/
 
+**First install the requirements**
+
+`pip install -r requirements.txt`
 
 **To start the flask server run**
+
 `python main.py`
+
+**Once the server has started, run this command to build the react ui**
+
+`npm start`
+
 
 **Visit** http://localhost:14000 
 
