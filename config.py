@@ -9,8 +9,8 @@ class Config(object):
         {
             'id': 'dataset-sync',
             'func': 'jobs:dataset_sync',
-            'trigger': 'interval',
-            'day': '1'
+            'trigger': 'cron',
+            'day': 1
             # 'seconds': 5
         }
     ]
