@@ -28,7 +28,7 @@ It fulfills the requirement of migration from one language to python programming
 
 **How to use**
 
-![docs](image.jpg)
+![screenshor](docs/image.jpg)
 
 # References
 `@inproceedings{yin2018mining,
