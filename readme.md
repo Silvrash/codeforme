@@ -26,6 +26,10 @@ It fulfills the requirement of migration from one language to python programming
 **For an interative session,**
 `python -m engine.interactive`
 
+**How to use**
+
+![docs](image.jpg)
+
 # References
 `@inproceedings{yin2018mining,
   author = {Yin, Pengcheng and Deng, Bowen and Chen, Edgar and Vasilescu, Bogdan and Neubig, Graham},
