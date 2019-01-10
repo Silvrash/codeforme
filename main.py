@@ -6,6 +6,7 @@ from Utils.url_handlers import register_app_urls, register_apis, register_views,
 from app import create_app, socketio
 from urls import APP_URL, API_URL, VIEWS, SOCKET_EVENTS
 import os
+from flask_apscheduler import APScheduler
 
 config_type = os.environ.get('DEVELOPMENT_TYPE') or 'dev'
 app = create_app(config_type)
@@ -23,6 +24,10 @@ register_events(SOCKET_EVENTS, socketio)
 app.handle_exception = handle_exceptions
 app.handle_user_exception = handle_user_exceptions
 
+# configure cron scheduler
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.start()
 
 @app.errorhandler(BaseError)
 def handle_errors(error):
@@ -82,6 +87,6 @@ def after_request(response):
 
 if __name__ == '__main__':
     socketio.run(app,
-                 host='127.0.0.1',
+                 host='0.0.0.0',
                  port=5000,
                  debug=True)

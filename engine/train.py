@@ -14,7 +14,6 @@ class Trainer(object):
     """This module handles training of the model"""
 
     def __init__(self):
-        
         # set logging configurations
         logging.basicConfig(
             format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
@@ -27,10 +26,10 @@ class Trainer(object):
         # logging.debug('Loaded generated files')
 
         logging.debug('Training model')
-        commands = self.dataset.load_commands()     # load commands
+        commands = self.dataset.load_commands()  # load commands
 
         self.commands = [TaggedDocument(words=command, tags=[i])
-                         for i, command in enumerate(commands)]     # tag commands with a label
+                         for i, command in enumerate(commands)]  # tag commands with a label
 
         self.init_model()
 
@@ -60,7 +59,7 @@ class Trainer(object):
                         negative=5,
                         workers=cores,
                         train_lbls=False)
-                        
+
         # build model vocabs
         model.build_vocab(self.commands)
 
@@ -79,8 +78,6 @@ class Trainer(object):
         model.save(config['model_path'] + "docEmbeddings_5_clean.d2v")
         logging.info("Model Saved")
 
-
-    
 
 if __name__ == '__main__':
     trainer = Trainer()

@@ -9,7 +9,7 @@ const middleware = [
 
 const enhancers = compose(
   applyMiddleware(...middleware),
-  window.devToolsExtension? window.devToolsExtension() : f => false
+  // window.devToolsExtension? window.devToolsExtension() : f => false
 )
 
 const store = createStore(

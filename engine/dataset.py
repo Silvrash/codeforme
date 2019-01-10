@@ -19,6 +19,7 @@ class Dataset(object):
     """
     This module handles all the preprocessing of the dataset
     """
+
     def __init__(self, generate_corpus=False):
         self.canonicalize = Canonicalize()
         # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
@@ -40,14 +41,16 @@ class Dataset(object):
             logging.info('Initializing dataset')
 
             train = pd.read_json(
-                os.path.join(os.path.dirname(os.path.abspath(__file__)), "../dataset/conala-train.json")).dropna()
+                os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "../dataset/conala-corpus/conala-train.json")).dropna()
             test = pd.read_json(
-                os.path.join(os.path.dirname(os.path.abspath(__file__)), "../dataset/conala-test.json")).dropna()
-            # mined = pd.read_json(
-                # os.path.join(os.path.dirname(os.path.abspath(__file__)), "../dataset/conala-mined.jsonl"),
-                # lines=True).dropna()
-            # mined['rewritten_intent'] = mined['intent']
-            dataset = pd.concat([train, test]).reset_index(drop=True)
+                os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "../dataset/conala-corpus/conala-test.json")).dropna()
+            mined = pd.read_json(
+                os.path.join(os.path.dirname(os.path.abspath(__file__)), "../dataset/conala-corpus/conala-mined.jsonl"),
+                lines=True).dropna()
+            mined['rewritten_intent'] = mined['intent']
+            dataset = pd.concat([train, test, mined]).reset_index(drop=True)
             dataset['slot_map'] = None
 
             # resume from data checkpoint
@@ -112,7 +115,7 @@ class Dataset(object):
             logging.info('ELAPSED TIME: %s\n' % str(time.time() - start_time))
 
             checkpoint.loc[checkpoint.shape[0]] = dataset.iloc[row_id].values
-            
+
             if row_id % 500 == 0:
                 logging.info('CHECKPOINT: {0:.2f}%'.format((row_id / len(dataset)) * 100))
                 checkpoint.to_pickle(config['data_checkpoint'])
