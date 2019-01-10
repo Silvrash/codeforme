@@ -1,14 +1,30 @@
-This project was implemented using the conala corpora dataset.
-It seeks mainly to make the life of a programmer easier to migrate from one language to another.
-This project fulfills the requirement of migration from one language to python programming language using natural language as commands
+# CodeForMe - semantic parsing to {python} code
 
-To start the flask server run
-python main.py
+This project uses the CoNaLa corpus dataset which can be downloaded from http://www.phontron.com/download/conala-corpus-v1.1.zip
 
-Visit http://localhost:14000 
+It seeks mainly to make the life of a programmer easier to migrate from one language to another(python in this case).
+It fulfills the requirement of migration from one language to python programming language using natural language as commands
 
-Online demo: https://codeforme.herokuapp.com
+**Online demo**: https://codeforme.herokuapp.com/
 
-For an interative session, run
-python -m engine.interactive
 
+**To start the flask server run**
+`python main.py`
+
+**Visit** http://localhost:14000 
+
+
+**For an interative session,**
+`python -m engine.interactive`
+
+# References
+`@inproceedings{yin2018mining,
+  author = {Yin, Pengcheng and Deng, Bowen and Chen, Edgar and Vasilescu, Bogdan and Neubig, Graham},
+  title = {Learning to Mine Aligned Code and Natural Language Pairs from Stack Overflow},
+  booktitle = {International Conference on Mining Software Repositories},
+  series = {MSR},
+  pages = {476--486},
+  year = {2018},
+  publisher = {ACM},
+  doi = {https://doi.org/10.1145/3196398.3196408},
+}`
